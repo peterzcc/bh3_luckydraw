@@ -12,7 +12,8 @@ def lucky_daw(prob):
         if current_hist[1] > 0 and current_hist[2] > 0 and current_hist[3] > 0:
             finished = True
     duplicated_items = np.sum((current_hist-1)*(current_hist > 1))
-    return current_hist, num_draws,duplicated_items
+    max_duplicated_items = np.max(current_hist-1)
+    return current_hist, num_draws, duplicated_items, max_duplicated_items
 
 
 def main():
@@ -20,11 +21,14 @@ def main():
     num_users = 1000000
     user_draw_nums = []
     user_duplicated_items = []
+    user_max_duplicated_items = []
     for u in range(num_users):
-        _,this_num_draws,this_user_duplicated_item = lucky_daw(up_probs)
+        _,this_num_draws,this_user_duplicated_item, max_duplicate = \
+            lucky_daw(up_probs)
         user_draw_nums.append(this_num_draws)
         user_duplicated_items.append(this_user_duplicated_item)
-    user_draw_nums = np.array(user_duplicated_items).astype(np.int32)
+        user_max_duplicated_items.append(max_duplicate)
+    user_draw_nums = np.array(user_max_duplicated_items).astype(np.int32)
     plt.hist(user_draw_nums,bins=user_draw_nums.max()-user_draw_nums.min())
     plt.show()
     return
