@@ -45,6 +45,16 @@ def main():
     print("median of num. of draws: {}".format(np.median(user_draw_nums)))
     plt.figure(2)
     plt.hist(target_metric,bins=target_metric.max()-target_metric.min())
+
+    target_metric = np.array(user_max_duplicated_items).astype(np.int32)
+    y, bins = np.histogram(target_metric, bins=target_metric.max() - target_metric.min())
+    x = bins[:-1]
+    y_flipped = np.flip(y,0)
+    cum_y_flipped = np.cumsum(y_flipped).astype(np.float32)/num_users
+    cum_y_distribution = np.flip(cum_y_flipped , 0)
+    plt.figure(3)
+    plt.plot(x, cum_y_distribution)
+    print(tabulate([x[0:30].astype(int), np.around(cum_y_distribution[0:30], decimals=4)]))
     plt.show()
     return
 
