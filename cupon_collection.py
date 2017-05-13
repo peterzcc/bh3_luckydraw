@@ -1,13 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from tabulate import tabulate
-
+rng = np.random.RandomState(seed=1234)
 def lucky_daw(prob,criteria):
     current_hist = np.zeros_like(prob)
     num_draws = 0
     finished = False
     while not finished:
-        this_draw = np.random.multinomial(1,prob)
+        this_draw = rng.random.multinomial(1,prob)
         current_hist += this_draw
         num_draws += 1
         if criteria(current_hist):
